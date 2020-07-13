@@ -1,6 +1,7 @@
 from json import dumps
 from kafka import KafkaProducer
 from enum import Enum
+import jsonpickle
 
 
 class Action(Enum):
@@ -9,11 +10,15 @@ class Action(Enum):
     Deleted = 3
 
 
+def to_json_with_action(data_item, action):
+    if data_item is None:
+        raise ValueError(" does not exist ")
+    setattr(data_item,'action', action)
+    item =  jsonpickle.encode(data_item)
+    print(item)
+
 def produce_transaction_with_action(broker_names, topic,  data_item, action):
-    data_item.set_attr('action', action)
     producer = KafkaProducer(bootstrap_servers=[broker_names],
                              value_serializer=lambda x:
                              dumps(x).encode('utf-8'))
-    producer.send(topic, data_item)
-
-
+    producer.send(topic, to_json_with_action(data_item =data_item,action=action) )
