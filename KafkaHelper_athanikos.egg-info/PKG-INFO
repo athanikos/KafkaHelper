@@ -1,0 +1,13 @@
+Metadata-Version: 1.1
+Name: KafkaHelper-athanikos
+Version: 0.0.3
+Summary: A set of helper to produce / consume from / to kafka (uses kafka-python)
+Home-page: UNKNOWN
+Author: Nikos Athanasakis
+Author-email: athanikos@gmail.com
+License: MIT License
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 1 - Planning
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
