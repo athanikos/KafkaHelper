@@ -27,7 +27,7 @@ def produce_with_action(broker_names, topic, data_item, id):
 
 def consume(broker_names, topic, consumer_group):
     consumer = KafkaConsumer(
-        'testme',
+        topic,
         bootstrap_servers=broker_names,
         auto_offset_reset='earliest',
         enable_auto_commit=True,
