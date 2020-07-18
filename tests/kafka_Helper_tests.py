@@ -39,8 +39,8 @@ def test_produce_to_kafka():
     my_obj = TestOject()
     my_obj.id = 10
     with_action(my_obj, action=Action.Added)
-    produce_with_action(broker_names=[broker],topic="test",data_item=json.dumps( {'hi' :'there'}   ) )
-    items = consume(broker_names=[broker],consumer_group=None, topic="test")
+    produce_with_action(broker_names=[broker],topic="test_produce_to_kafka",data_item=json.dumps( {'hi' :'there'}   ) )
+    items = consume(broker_names=[broker],consumer_group="test_produce_to_kafka", topic="test_produce_to_kafka")
     assert (len(items) == 1)
 
 
@@ -48,8 +48,8 @@ def test_produce_to_kafka_with_consumer_group():
     my_obj = TestOject()
     my_obj.id = 10
     with_action(my_obj, action=Action.Added)
-    produce_with_action(broker_names=[broker],topic="testme",data_item=json.dumps( {'hi' :'there'}   ) )
-    items = consume(broker_names=[broker],consumer_group=None,topic="testme")
+    produce_with_action(broker_names=[broker],topic="test_produce_to_kafka_with_consumer_group",data_item=json.dumps( {'hi' :'there'}   ) )
+    items = consume(broker_names=[broker],consumer_group="test_produce_to_kafka_with_consumer_group",topic="test_produce_to_kafka_with_consumer_group")
     assert (len(items) == 1)
 
 
@@ -59,8 +59,8 @@ def test_produce_to_kafka_with_consumer_group_2():
     us.preferred_currency = "EUR"
     with_action(us, action=Action.Added)
     print(jsonpickle.encode(us))
-    produce_with_action(broker_names=[broker], topic="us1",data_item=jsonpickle.encode(us) )
-    items = consume(broker_names=[broker],consumer_group=None,topic="us1")
+    produce_with_action(broker_names=[broker], topic="test_produce_to_kafka_with_consumer_group_2",data_item=jsonpickle.encode(us) )
+    items = consume(broker_names=[broker],consumer_group="test_produce_to_kafka_with_consumer_group_2",topic="test_produce_to_kafka_with_consumer_group_2")
     assert (len(items) == 1)
 
 def test_produce_to_kafka_transaction_with_consumer_group_2():
@@ -75,7 +75,25 @@ def test_produce_to_kafka_transaction_with_consumer_group_2():
     t.source = "kraken"
     t.currency = "EUR"
     with_action(t, action=Action.Added)
-    produce_with_action(broker_names=[broker],topic="t",data_item=jsonpickle.encode(t) )
-    items = consume(broker_names=[broker],consumer_group=None,topic="t")
+    produce_with_action(broker_names=[broker],topic="test_produce_to_kafka_transaction_with_consumer_group_2",data_item=jsonpickle.encode(t) )
+    items = consume(broker_names=[broker],consumer_group="test_produce_to_kafka_transaction_with_consumer_group_2",topic="test_produce_to_kafka_transaction_with_consumer_group_2")
     assert (len(items) == 1)
+
+
+def test_produce_to_kafka_transaction_with_consumer_group_two_items():
+    t = user_transaction()
+    t.user_id = 1
+    t.preferred_currency = "EUR"
+    t.volume = 100
+    t.symbol ="BTC"
+    t.value = 12131
+    t.price = 1213
+    t.date = 12121
+    t.source = "kraken"
+    t.currency = "EUR"
+    with_action(t, action=Action.Added)
+    produce_with_action(broker_names=[broker],topic="test_produce_to_kafka_transaction_with_consumer_group_two_items",data_item=jsonpickle.encode(t) )
+    produce_with_action(broker_names=[broker],topic="test_produce_to_kafka_transaction_with_consumer_group_two_items",data_item=jsonpickle.encode(t) )
+    items = consume(broker_names=[broker],consumer_group="test_produce_to_kafka_transaction_with_consumer_group_two_items",topic="test_produce_to_kafka_transaction_with_consumer_group_two_items")
+    assert (len(items) == 2)
 

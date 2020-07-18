@@ -31,13 +31,14 @@ def consume(broker_names, topic, consumer_group):
         bootstrap_servers=broker_names,
         auto_offset_reset='earliest',
         enable_auto_commit=True,
+        auto_commit_interval_ms=1,
         group_id=consumer_group,
-        value_deserializer=lambda x: loads(x.decode('utf-8')))
+        value_deserializer=lambda x: loads(x.decode('utf-8')),
+        consumer_timeout_ms=3000
+        )
     items = []
     for msg in consumer:
         items.append(msg.value)
-        print(msg.value)
-        break
     return items
 
 
