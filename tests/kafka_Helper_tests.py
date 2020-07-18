@@ -75,8 +75,8 @@ def test_produce_to_kafka_transaction_with_consumer_group_2():
     t.source = "kraken"
     t.currency = "EUR"
     with_action(t, action=Action.Added)
-    produce_with_action(broker_names=[broker],topic="test_produce_to_kafka_transaction_with_consumer_group_2",data_item=jsonpickle.encode(t) )
-    items = consume(broker_names=[broker],consumer_group="test_produce_to_kafka_transaction_with_consumer_group_2",topic="test_produce_to_kafka_transaction_with_consumer_group_2")
+    produce_with_action(broker_names=[broker],topic="transactions",data_item=jsonpickle.encode(t) )
+    items = consume(broker_names=[broker],consumer_group="test_produce_to_kafka_transaction_with_consumer_group_2",topic="transactions")
     assert (len(items) == 1)
 
 
