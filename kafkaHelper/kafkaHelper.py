@@ -18,7 +18,7 @@ def with_action(data_item, action):
     return jsonpickle.encode(data_item)
 
 
-def produce_with_action(broker_names, topic, data_item, id):
+def produce_with_action(broker_names, topic, data_item):
     producer = KafkaProducer(bootstrap_servers=broker_names,
                              value_serializer=lambda x:
                              dumps(x).encode('utf-8'))
@@ -35,7 +35,9 @@ def consume(broker_names, topic, consumer_group):
         value_deserializer=lambda x: loads(x.decode('utf-8')))
     items = []
     for msg in consumer:
-        items.append(msg)
+        items.append(msg.value)
+        print(msg.value)
+        break
     return items
 
 

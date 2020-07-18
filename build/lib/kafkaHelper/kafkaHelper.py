@@ -33,11 +33,9 @@ def consume(broker_names, topic, consumer_group):
         enable_auto_commit=True,
         group_id=consumer_group,
         value_deserializer=lambda x: loads(x.decode('utf-8')))
-
     items = []
     for msg in consumer:
         items.append(msg)
-        break
     return items
 
 

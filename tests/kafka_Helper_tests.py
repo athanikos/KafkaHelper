@@ -38,13 +38,14 @@ def test_to_json():
     with_action(my_obj, action=Action.Added)
     assert (my_obj.action == Action.Added)
 
+broker = "192.168.1.57:9092"
 
 def test_produce_to_kafka():
     my_obj = TestOject()
     my_obj.id = 10
     with_action(my_obj, action=Action.Added)
-    produce_with_action(broker_names=["localhost:9092"],topic="testme",data_item=json.dumps( {'hi' :'there'}   ), id=my_obj.id )
-    items = consume(broker_names=["localhost:9092"],consumer_group=None,topic="testme")
+    produce_with_action(broker_names=[broker],topic="test",data_item=json.dumps( {'hi' :'there'}   ) )
+    items = consume(broker_names=[broker],consumer_group=None, topic="test")
     assert (len(items) == 1)
 
 
@@ -52,8 +53,8 @@ def test_produce_to_kafka_with_consumer_group():
     my_obj = TestOject()
     my_obj.id = 10
     with_action(my_obj, action=Action.Added)
-    produce_with_action(broker_names=["localhost:9092"],topic="testme",data_item=json.dumps( {'hi' :'there'}   ), id=my_obj.id )
-    items = consume(broker_names=["localhost:9092"],consumer_group='test',topic="testme")
+    produce_with_action(broker_names=[broker],topic="testme",data_item=json.dumps( {'hi' :'there'}   ) )
+    items = consume(broker_names=[broker],consumer_group=None,topic="testme")
     assert (len(items) == 1)
 
 
@@ -63,9 +64,8 @@ def test_produce_to_kafka_with_consumer_group_2():
     us.preferred_currency = "EUR"
     with_action(us, action=Action.Added)
     print(jsonpickle.encode(us))
-    produce_with_action(broker_names=["localhost:9092"],topic="us1",data_item=jsonpickle.encode(us), id=us.userId )
-    items = consume(broker_names=["localhost:9092"],consumer_group=None,topic="us")
-    print(items[0])
+    produce_with_action(broker_names=[broker], topic="us1",data_item=jsonpickle.encode(us) )
+    items = consume(broker_names=[broker],consumer_group=None,topic="us1")
     assert (len(items) == 1)
 
 def test_produce_to_kafka_transaction_with_consumer_group_2():
@@ -80,8 +80,7 @@ def test_produce_to_kafka_transaction_with_consumer_group_2():
     t.source = "kraken"
     t.currency = "EUR"
     with_action(t, action=Action.Added)
-    print(jsonpickle.encode(t))
-    produce_with_action(broker_names=["localhost:9092"],topic="t",data_item=jsonpickle.encode(t), id=t.user_id )
-    items = consume(broker_names=["localhost:9092"],consumer_group=None,topic="t")
+    produce_with_action(broker_names=[broker],topic="t",data_item=jsonpickle.encode(t) )
+    items = consume(broker_names=[broker],consumer_group=None,topic="t")
     assert (len(items) == 1)
 
