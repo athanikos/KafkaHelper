@@ -1,12 +1,8 @@
 import json
-
 import jsonpickle
-from flask import jsonify
-
 from kafkaHelper.kafkaHelper import with_action, Action, produce_with_action, consume
 from mongoengine import *
-
-
+broker = "192.168.1.57:9092"
 DATE_FORMAT = '%Y-%m-%d'
 
 
@@ -38,7 +34,6 @@ def test_to_json():
     with_action(my_obj, action=Action.Added)
     assert (my_obj.action == Action.Added)
 
-broker = "192.168.1.57:9092"
 
 def test_produce_to_kafka():
     my_obj = TestOject()
