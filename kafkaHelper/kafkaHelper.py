@@ -11,10 +11,11 @@ class Action(Enum):
     Deleted = 3
 
 
-def with_action(data_item, action):
+def with_action(data_item, action, source_id):
     if data_item is None:
         raise ValueError(" does not exist ")
     setattr(data_item, 'action', action)
+    setattr(data_item, 'source_id', source_id)
     return jsonpickle.encode(data_item)
 
 
