@@ -13,8 +13,7 @@ class Action(Enum):
 def produce(broker_names, topic, data_item):
     producer = KafkaProducer(bootstrap_servers=broker_names,
                              value_serializer=lambda x:
-                             dumps(x).encode('utf-8').decode(
-                             )
+                             dumps(x).encode('utf-8')
                              )
     producer.send(topic, data_item)
     producer.flush()
