@@ -13,10 +13,11 @@ class Action(Enum):
 def produce(broker_names, topic, data_item):
     producer = KafkaProducer(bootstrap_servers=broker_names,
                              value_serializer=lambda x:
-                             dumps(x).encode('utf-8'))
-    future = producer.send(topic, data_item)
-    result = future.get(timeout=60)
-
+                             dumps(x).encode('utf-8').decode(
+                             )
+                             )
+    producer.send(topic, data_item)
+    producer.flush()
 
 def consume(broker_names, topic, consumer_group, auto_offset_reset):
     consumer = KafkaConsumer(
