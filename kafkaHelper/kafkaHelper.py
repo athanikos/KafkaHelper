@@ -18,11 +18,11 @@ def produce(broker_names, topic, data_item):
     result = future.get(timeout=60)
 
 
-def consume(broker_names, topic, consumer_group):
+def consume(broker_names, topic, consumer_group, auto_offset_reset):
     consumer = KafkaConsumer(
         topic,
         bootstrap_servers=broker_names,
-        auto_offset_reset='earliest',
+        auto_offset_reset=auto_offset_reset,
         enable_auto_commit=True,
         auto_commit_interval_ms=1,
         group_id=consumer_group,
