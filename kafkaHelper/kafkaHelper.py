@@ -2,7 +2,7 @@ from json import dumps, loads
 from kafka import KafkaProducer
 from enum import Enum
 from kafka import KafkaConsumer
-
+from kafka.errors import KafkaError
 
 class Action(Enum):
     Added = 1
@@ -15,8 +15,14 @@ def produce(broker_names, topic, data_item):
                              value_serializer=lambda x:
                              dumps(x).encode('utf-8')
                              )
-    producer.send(topic, data_item)
-    producer.flush()
+    future = producer.send(topic, data_item)
+    try:
+        record_metadata = future.get(timeout=10)
+    except KafkaError:
+        # Decide what to do if produce request failed...
+
+        pass
+
 
 def consume(broker_names, topic, consumer_group, auto_offset_reset):
     consumer = KafkaConsumer(

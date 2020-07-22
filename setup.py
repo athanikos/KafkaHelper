@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='KafkaHelper-athanikos',
-    version="0.1.6",
+    version="0.1.8",
     license='MIT License',
     author='Nikos Athanasakis',
     packages=setuptools.find_packages(),

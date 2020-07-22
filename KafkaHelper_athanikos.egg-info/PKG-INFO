@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: KafkaHelper-athanikos
-Version: 0.1.6
+Version: 0.1.7
 Summary: A set of helper to produce / consume from / to kafka (uses kafka-python)
 Home-page: UNKNOWN
 Author: Nikos Athanasakis
