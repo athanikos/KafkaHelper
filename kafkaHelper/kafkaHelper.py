@@ -4,6 +4,7 @@ from enum import Enum
 from kafka import KafkaConsumer
 from kafka.errors import KafkaError
 
+
 class Action(Enum):
     Added = 1
     Modified = 2
@@ -15,13 +16,12 @@ def produce(broker_names, topic, data_item):
                              value_serializer=lambda x:
                              dumps(x).encode('utf-8')
                              )
-    future = producer.send(topic, data_item)
+    future = producer.send(topic, value=data_item)
     try:
         record_metadata = future.get(timeout=10)
     except KafkaError:
-        # Decide what to do if produce request failed...
+        raise
 
-        pass
 
 
 def consume(broker_names, topic, consumer_group, auto_offset_reset):
