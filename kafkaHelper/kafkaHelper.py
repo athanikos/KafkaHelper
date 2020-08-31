@@ -1,6 +1,5 @@
 from json import dumps, loads
 from kafka import KafkaProducer
-from enum import Enum
 from kafka import KafkaConsumer
 from kafka.errors import KafkaError
 
