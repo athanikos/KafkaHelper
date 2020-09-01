@@ -1,0 +1,33 @@
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.1
+working_directory: ~/KafkaHelper
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.6.4  # primary container for this build
+      - image: spotify/kafka
+    steps:
+      - checkout
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+      - run:
+          name: Install Python dependencies in a venv
+          command: |
+            virtualenv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      - run:
+          name: "Setup custom environment variables"
+          command: |
+            echo 'export FLASK_ENV=KafkaHelper.config.DevelopmentConfig'
+      - run:
+          name: Runnning tests
+          command: |
+            . venv/bin/activate
+            py.test -vv KafkaHelper/tests
+      - run:
+          name: Code coverage
+          command: |
+             . venv/bin/activate
+             py.test --cov=KafkaHelper --cov-config=.coveragerc

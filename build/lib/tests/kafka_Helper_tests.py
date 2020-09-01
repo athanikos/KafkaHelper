@@ -1,6 +1,6 @@
 import json
 import jsonpickle
-from kafkaHelper.kafkaHelper import  Action, produce, consume
+from kafkaHelper.kafkaHelper import  produce, consume
 from mongoengine import *
 broker = "192.168.1.57:9092"
 DATE_FORMAT = '%Y-%m-%d'
@@ -16,6 +16,7 @@ class user_transaction(Document):
     date = DateField()
     source = StringField()
     currency = StringField()
+
 
 class user_settings(Document):
     meta = {'strict': False}

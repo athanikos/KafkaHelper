@@ -1,20 +1,26 @@
 from json import dumps, loads
 from kafka import KafkaProducer
-from enum import Enum
 from kafka import KafkaConsumer
 from kafka.errors import KafkaError
-
-
-class Action(Enum):
-    Added = 1
-    Modified = 2
-    Deleted = 3
 
 
 def produce(broker_names, topic, data_item):
     producer = KafkaProducer(bootstrap_servers=broker_names,
                              value_serializer=lambda x:
                              dumps(x).encode('utf-8')
+                             )
+    future = producer.send(topic, value=data_item)
+    try:
+        record_metadata = future.get(timeout=10)
+    except KafkaError:
+        raise
+
+
+def produce_with_key(broker_names, topic, data_item, key):
+    producer = KafkaProducer(bootstrap_servers=broker_names,
+                             value_serializer=lambda x:
+                             dumps(x).encode('utf-8'),
+                             key=key
                              )
     future = producer.send(topic, value=data_item)
     try:

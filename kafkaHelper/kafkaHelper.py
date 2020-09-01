@@ -22,7 +22,7 @@ def produce_with_key(broker_names, topic, data_item, key):
                              dumps(x).encode('utf-8'),
                              key=key
                              )
-    future = producer.send(topic, value=data_item)
+    future = producer.send(topic, value=data_item, key=key)
     try:
         record_metadata = future.get(timeout=10)
     except KafkaError:
