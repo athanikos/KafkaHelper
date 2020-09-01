@@ -19,10 +19,9 @@ def produce(broker_names, topic, data_item):
 def produce_with_key(broker_names, topic, data_item, key):
     producer = KafkaProducer(bootstrap_servers=broker_names,
                              value_serializer=lambda x:
-                             dumps(x).encode('utf-8'),
-                             key=key
+                             dumps(x).encode('utf-8')
                              )
-    future = producer.send(topic, value=data_item)
+    future = producer.send(topic, value=data_item, key=key)
     try:
         record_metadata = future.get(timeout=10)
     except KafkaError:
