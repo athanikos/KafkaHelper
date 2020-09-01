@@ -25,7 +25,7 @@ jobs:
           name: Runnning tests
           command: |
             . venv/bin/activate
-            py.test -vv KafkaHelper/tests
+            py.test -vv tests
       - run:
           name: Code coverage
           command: |
