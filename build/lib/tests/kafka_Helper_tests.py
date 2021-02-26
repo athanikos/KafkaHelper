@@ -1,8 +1,8 @@
 import json
 import jsonpickle
-from kafkaHelper.kafkaHelper import  produce, consume
+from kafkaHelper.kafkaHelper import  produce, consume, produce_with_key
 from mongoengine import *
-broker = "192.168.1.57:9092"
+broker = "134.122.79.43:9092"
 DATE_FORMAT = '%Y-%m-%d'
 
 
@@ -103,4 +103,15 @@ def test_produce_to_kafka_transaction_with_consumer_group_two_items():
         print(da_item)
         assert (da_item.value == 12131)
         assert (da_item.symbol == "BTC")
+
+
+def test_produce_with_key_to_kafka_with_consumer_group():
+
+    da_key = "1".encode('utf-8')
+    produce_with_key(
+        key=da_key, broker_names=[broker], topic="test_produce_to_kafka_with_consumer_group", data_item=json.dumps({'hi' : 'there'}))
+    items = consume(broker_names=[broker], auto_offset_reset='earliest',
+                    consumer_timeout_ms=5000,
+                    consumer_group="test_produce_to_kafka_with_consumer_group",topic="test_produce_to_kafka_with_consumer_group")
+    assert (len(items) == 1)
 

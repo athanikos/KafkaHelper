@@ -1,7 +1,7 @@
 config
 coverage
 jsonpickle
-kafka-python==2.0.1
+kafka-python==2.0.2
 Werkzeug~=1.0.1
 pytest==4.6.9
 pytest-cov

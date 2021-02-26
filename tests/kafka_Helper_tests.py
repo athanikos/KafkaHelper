@@ -2,7 +2,7 @@ import json
 import jsonpickle
 from kafkaHelper.kafkaHelper import  produce, consume, produce_with_key
 from mongoengine import *
-broker = "192.168.1.57:9092"
+broker = "134.122.79.43:9092"
 DATE_FORMAT = '%Y-%m-%d'
 
 
