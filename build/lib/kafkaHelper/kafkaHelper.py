@@ -28,13 +28,13 @@ def produce_with_key(broker_names, topic, data_item, key):
         raise
 
 
-def consume(broker_names, topic, consumer_group, auto_offset_reset, consumer_timeout_ms):
+def consume(broker_names, topic, consumer_group, auto_offset_reset, consumer_timeout_ms, auto_commit_interval_ms=1):
     consumer = KafkaConsumer(
         topic,
         bootstrap_servers=broker_names,
         auto_offset_reset=auto_offset_reset,
         enable_auto_commit=True,
-        auto_commit_interval_ms=1,
+        auto_commit_interval_ms=auto_commit_interval_ms,
         group_id=consumer_group,
         value_deserializer=lambda x: loads(x.decode('utf-8')),
         consumer_timeout_ms=consumer_timeout_ms

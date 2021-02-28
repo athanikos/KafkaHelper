@@ -115,3 +115,4 @@ def test_produce_with_key_to_kafka_with_consumer_group():
                     consumer_group="test_produce_to_kafka_with_consumer_group",topic="test_produce_to_kafka_with_consumer_group")
     assert (len(items) == 1)
 
+
